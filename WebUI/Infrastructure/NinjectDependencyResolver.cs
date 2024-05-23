@@ -1,4 +1,5 @@
 ﻿using Domain.Abstract;
+using Domain.Concrete;
 using Domain.Entities;
 using Moq;
 using Ninject;
@@ -27,7 +28,7 @@ namespace WebUI.Infrastructure
             return kernel.GetAll(serviceType);
         }
         public void AddBindings() { 
-            Mock<IGameRepository> mock = new Mock<IGameRepository> ();
+            /*Mock<IGameRepository> mock = new Mock<IGameRepository> ();
             mock.Setup(m => m.Games).Returns(new List<Game>
             {
                 new Game
@@ -45,9 +46,9 @@ namespace WebUI.Infrastructure
                     Name = "The Last of Us 2",
                     Price = 4599
                 }
-            });
+            });*/
 
-            kernel.Bind<IGameRepository>().ToConstant(mock.Object);
+            kernel.Bind<IGameRepository>().To<EFGameRepository>();
         }
     }
 }
