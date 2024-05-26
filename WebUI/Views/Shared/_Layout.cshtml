@@ -10,9 +10,9 @@
   <div class="navbar navbar-expand-lg navbar-collapse" role="navigation">
       <a class="navbar-brand" href="#">GameStore - магазин компьютерных игр</a>
   </div>
-    <div class="card card-body">
+    <div class="row card card-body">
         <div id="categories" class="col-xs-3">
-            тут реализация в разработке
+            @Html.Action("Menu", "Nav")
         </div>
       <div class="col-xs-8">
           @RenderBody()

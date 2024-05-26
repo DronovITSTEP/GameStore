@@ -17,11 +17,12 @@ namespace WebUI.Controllers
         {
             this.repository = repository;
         }
-        public ViewResult List(int page = 1)
+        public ViewResult List(string category, int page = 1)
         {
             GamesListViewModel model = new GamesListViewModel
             {
                 Games = repository.Games
+                .Where(p => category == null || p.Category.Name == category)
                 .OrderBy(game => game.Id)
                 .Skip((page - 1) * pageSize).
                 Take(pageSize),
@@ -29,8 +30,11 @@ namespace WebUI.Controllers
                 {
                     CurrentPage = page,
                     ItemsPerPage = pageSize,
-                    TotalItems = repository.Games.Count()
-                }
+                    TotalItems = category == null ? 
+                    repository.Games.Count() :
+                    repository.Games.Where(game => game.Category.Name == category).Count()
+                },
+                CurrentCategory = category
             };
             return View(model);
         }

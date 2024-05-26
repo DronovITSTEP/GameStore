@@ -13,18 +13,45 @@ namespace WebUI
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.MapRoute(
+                null,
+                "",
+                new
+                {
+                    controller = "Game",
+                    action = "List",
+                    category = (string)null,
+                    page = 1
+                }
+            ); // /
 
             routes.MapRoute(
                 name: null,
                 url: "Page{page}",
-                defaults: new {controller = "Game", action = "List"}
-            );
+                defaults: new {
+                    controller = "Game",
+                    action = "List",
+                    category = (string)null,
+                },
+                constraints: new { page = @"\d+"}
+            ); // /page1
 
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Game", action = "List", id = UrlParameter.Optional }
-            );
+                null,
+                "{category}",
+                new
+                {
+                    controller = "Game",
+                    action = "List"
+                },
+                new { page = @"\d+" }
+              ); // /category
+
+            routes.MapRoute( null, "{controller}/{action}"); // /category/page3
         }
     }
 }
+
+
+// Page2
+// rpg/page3

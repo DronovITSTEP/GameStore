@@ -18,5 +18,12 @@ namespace Domain.Concrete
                 return _dbContext.Games;
             }
         }
+        public IEnumerable<Category> Categories
+        {
+            get
+            {
+                return _dbContext.Categories;
+            }
+        }
     }
 }
