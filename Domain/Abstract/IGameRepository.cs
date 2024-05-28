@@ -10,6 +10,5 @@ namespace Domain.Abstract
     public interface IGameRepository
     {
         IEnumerable<Game> Games { get; }
-        IEnumerable<Category> Categories { get; }
     }
 }

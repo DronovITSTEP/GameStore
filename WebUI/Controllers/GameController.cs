@@ -25,8 +25,8 @@ namespace WebUI.Controllers
                 .ToList()
                 .Where(p => category == null || p.Category.Name == category)
                 .OrderBy(game => game.Id)
-                .Skip((page - 1) * pageSize).
-                Take(pageSize),
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize),
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,

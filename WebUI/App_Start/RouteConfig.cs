@@ -49,7 +49,3 @@ namespace WebUI
         }
     }
 }
-
-
-// Page2
-// rpg/page3
