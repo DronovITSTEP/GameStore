@@ -22,6 +22,7 @@ namespace WebUI.Controllers
             GamesListViewModel model = new GamesListViewModel
             {
                 Games = repository.Games
+                .ToList()
                 .Where(p => category == null || p.Category.Name == category)
                 .OrderBy(game => game.Id)
                 .Skip((page - 1) * pageSize).
@@ -32,7 +33,9 @@ namespace WebUI.Controllers
                     ItemsPerPage = pageSize,
                     TotalItems = category == null ? 
                     repository.Games.Count() :
-                    repository.Games.Where(game => game.Category.Name == category).Count()
+                    repository.Games
+                    .ToList()
+                    .Where(game => game.Category.Name == category).Count()
                 },
                 CurrentCategory = category
             };
@@ -40,6 +43,3 @@ namespace WebUI.Controllers
         }
     }
 }
-
-// localhost/?page=2
-// localhost/page2

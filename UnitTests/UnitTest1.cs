@@ -155,5 +155,59 @@ namespace UnitTests
             Assert.AreEqual(results[1], "симулятор");
             Assert.AreEqual(results[2], "шутер");
         }
+
+        [TestMethod]
+        public void Can_Filter_Games()
+        {
+            Mock<IGameRepository> mock = new Mock<IGameRepository>();
+            mock.Setup(m => m.Games).Returns(new List<Game>
+            {
+                new Game
+                {
+                    Name = "Assassin's",
+                    Price = 4999,
+                    Category = new Category
+                    {
+                        Name = "rpg"
+                    }
+                },
+                new Game
+                {
+                    Name = "Call of Duty",
+                    Price = 5699,
+                    Category = new Category
+                    {
+                        Name = "шутер"
+                    }
+                },
+                new Game
+                {
+                    Name = "The Last of Us 2",
+                    Price = 4599,
+                    Category = new Category
+                    {
+                        Name = "шутер"
+                    }
+                },
+                new Game
+                {
+                    Name = "Call of Duty 2",
+                    Price = 4999,
+                    Category = new Category
+                    {
+                        Name = "симулятор"
+                    }
+                }
+            });
+
+            GameController gameController = new GameController(mock.Object);
+            gameController.pageSize = 3;
+
+            List<Game> result = ((GamesListViewModel)gameController
+                .List("симулятор", 1).Model).Games.ToList();
+            Assert.AreEqual(result.Count(), 1);
+            Assert.IsTrue(result[0].Name == "Call of Duty 2"
+                && result[0].Category.Name == "симулятор");
+        }
     }
 }

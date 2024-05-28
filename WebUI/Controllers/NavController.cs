@@ -18,11 +18,11 @@ namespace WebUI.Controllers
         public PartialViewResult Menu(string category = null)
         {
             ViewBag.SelectedCategory = category;
-            IEnumerable<string> categories = 
-                repository.Games
+            IEnumerable<string> categories = repository.Games
+                .ToList()
                 .Select(x => x.Category.Name)
                 .Distinct()
-                .OrderBy(x=>x);
+                .OrderBy(x => x);
 
             return PartialView(categories);
         }

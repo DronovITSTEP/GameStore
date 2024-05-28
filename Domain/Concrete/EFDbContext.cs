@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,12 +14,6 @@ namespace Domain.Concrete
         public DbSet<Game> Games { get; set; }
         public DbSet<Category> Categories { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Game>().
-                HasRequired(x => x.Category)
-                .WithMany(c => c.Games)
-                .HasForeignKey(x => x.CategoryID);
-        }
+       
     }
 }
