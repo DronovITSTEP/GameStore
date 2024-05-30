@@ -12,32 +12,35 @@ namespace WebUI.Controllers
     public class CartController : Controller
     {
         private IGameRepository gameRepository;
-        public CartController (IGameRepository gameRepository)
+        private IOrderProcessor processor;
+        public CartController (IGameRepository gameRepository,
+            IOrderProcessor processor)
         {
             this.gameRepository = gameRepository;
+            this.processor = processor;
         }
 
-        public ViewResult Index(string returnUrl) {
+        public ViewResult Index(Cart cart, string returnUrl) {
             return View(new CartIndexViewModel
             {
-                Cart = GetCart(),
+                Cart = cart,
                 ReturnUrl = returnUrl
             });
         }
 
         public RedirectToRouteResult AddToCart(
-            int Id, string returnUrl)
+            Cart cart, int Id, string returnUrl)
         {
             Game game = gameRepository.Games
                 .FirstOrDefault(x => x.Id == Id);
 
             if (game != null) {
-                GetCart().AddItem(game, 1);
+                cart.AddItem(game, 1);
             }
 
             return RedirectToAction("Index", new {returnUrl});
         }
-        public RedirectToRouteResult RemoveFromCart(int Id,
+        public RedirectToRouteResult RemoveFromCart(Cart cart, int Id,
             string returnUrl)
         {
             Game game = gameRepository.Games
@@ -45,26 +48,34 @@ namespace WebUI.Controllers
 
             if (game != null)
             {
-                GetCart().RemoveItem(game);
+                cart.RemoveItem(game);
             }
 
             return RedirectToAction("Index", new { returnUrl });
         }
-
-        public Cart GetCart()
-        {
-            Cart cart = (Cart)Session["Cart"];
-            if (cart == null)
-            {
-                cart = new Cart();
-                Session["Cart"] = cart;
-            }
-            return cart;
-        }
+      
 
         public PartialViewResult Summary (Cart cart)
         {
-            return PartialView(GetCart());
+            return PartialView(cart);
+        }
+
+        
+        public ViewResult Checkout(Cart cart, ShippingDetails shippingDetails)
+        {
+            if (cart.Lines.Count() == 0)
+                ModelState.AddModelError("", "Ваша корзина пуста!");
+
+            if (ModelState.IsValid)
+            {
+                processor.ProcessorOrder(cart, shippingDetails);
+                cart.Clear();
+                return View("Completed");
+            }
+            else
+            {
+                return View(shippingDetails);
+            }
         }
     }
 }

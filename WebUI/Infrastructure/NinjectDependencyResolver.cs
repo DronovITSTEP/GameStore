@@ -5,6 +5,7 @@ using Moq;
 using Ninject;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Web.Mvc;
 
 namespace WebUI.Infrastructure
@@ -49,6 +50,15 @@ namespace WebUI.Infrastructure
             });*/
 
             kernel.Bind<IGameRepository>().To<EFGameRepository>();
+
+            EmailSettings emailSettings = new EmailSettings
+            {
+                WriteAsFile = bool.Parse(ConfigurationManager
+                .AppSettings["Email.WriteAsFile"] ?? "false")
+            };
+
+            kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>()
+                .WithConstructorArgument("settings", emailSettings);
         }
     }
 }
