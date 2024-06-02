@@ -23,8 +23,8 @@ namespace WebUI.Controllers
                 .Select(x => x.Category.Name)
                 .Distinct()
                 .OrderBy(x => x);
-
-            return PartialView(categories);
+          
+            return PartialView("FlexMenu", categories);
         }
     }
 }

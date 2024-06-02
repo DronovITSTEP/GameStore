@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<string>
 
-<div class="btn-group btn-group-vertical">
+<div class="btn-group">
     @Html.ActionLink("Домой", "List", "Game", null,
-        new { @class = "btn btn-block btn-lg" })
+    new { @class = "btn btn-block btn-lg" })
 
     @foreach (var link in Model)
     {
