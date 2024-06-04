@@ -18,5 +18,23 @@ namespace Domain.Concrete
                 return _dbContext.Games;
             }
         }
+
+        public void SaveGame(Game game)
+        {
+            if (game.Id == 0)
+                _dbContext.Games.Add(game);
+            else
+            {
+                Game dbEntry = _dbContext.Games.Find(game.Id);
+                if (dbEntry != null)
+                {
+                    dbEntry.Name = game.Name;
+                    dbEntry.Description = game.Description;
+                    dbEntry.Price = game.Price;
+                    dbEntry.Category = game.Category;
+                }
+            }
+            _dbContext.SaveChanges();
+        }
     }
 }

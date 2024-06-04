@@ -1,0 +1,62 @@
+﻿@model Domain.Entities.Game
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    @*@HtmlHelper.ClientValidationEnabled = false;
+    @HtmlHelper.UnobtrusiveJavaScriptEnabled = false;*@
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3>Редактор игры @Model.Name</h3>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        <div class="card-body">
+            @Html.HiddenFor(m => m.Id)
+            @foreach (var propery in ViewData.ModelMetadata.Properties)
+            {
+                if (propery.PropertyName != "Id")
+                {
+                    <div class="form-control">
+                        <label>
+                            @(propery.DisplayName ??
+                             propery.PropertyName)
+                        </label>
+                        @if (propery.PropertyName == "Description")
+                        {
+                            @Html.TextArea(propery.PropertyName, null,
+                                    new { @class = "form-control", rows = 5 })
+                        }
+                        else if (propery.Model is Domain.Entities.Category)
+                        {
+                            @Html.TextBox((propery.Model 
+                           as Domain.Entities.Category).Name, null,
+                             new { @class = "form-control" })
+                        }
+                        else
+                        {
+                            @Html.TextBox(propery.PropertyName, null,
+                                    new { @class = "form-control" })
+                        }
+                        @Html.ValidationMessage(propery.PropertyName);
+                    </div>
+                }
+            }
+        </div>
+        <div class="card-footer">
+            <input type="submit" value="Сохранить" class="btn btn-primary" />
+            @Html.ActionLink("Отменить изменения " +
+           "и вернуться на начальную страницу", "Index", null,
+           new { @class = "btn btn-dark" })
+        </div>
+    }
+
+</div>
+
+<script src="~/Scripts/jquery-1.8.0.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
