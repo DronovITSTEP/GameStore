@@ -1,11 +1,8 @@
 ﻿@model Domain.Entities.Game
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Админ панель: редактирование игр";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-
-    @*@HtmlHelper.ClientValidationEnabled = false;
-    @HtmlHelper.UnobtrusiveJavaScriptEnabled = false;*@
 }
 
 <div class="card">
@@ -13,39 +10,73 @@
         <h3>Редактор игры @Model.Name</h3>
     </div>
 
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Edit", "Admin", 
+        FormMethod.Post, new {enctype = "multipart/form-data"}))
     {
         <div class="card-body">
             @Html.HiddenFor(m => m.Id)
             @foreach (var propery in ViewData.ModelMetadata.Properties)
             {
-                if (propery.PropertyName != "Id")
+                switch (propery.PropertyName)
                 {
-                    <div class="form-control">
-                        <label>
-                            @(propery.DisplayName ??
+                    case "Id":
+                    case "ImageData":
+                    case "ImageMimeType":
+                        break;
+                    default:
+
+                        <div class="form-control">
+                            <label>
+                                @(propery.DisplayName ??
                              propery.PropertyName)
-                        </label>
-                        @if (propery.PropertyName == "Description")
-                        {
-                            @Html.TextArea(propery.PropertyName, null,
-                                    new { @class = "form-control", rows = 5 })
-                        }
-                        else if (propery.Model is Domain.Entities.Category)
-                        {
-                            @Html.TextBox((propery.Model 
-                           as Domain.Entities.Category).Name, null,
-                             new { @class = "form-control" })
-                        }
-                        else
-                        {
-                            @Html.TextBox(propery.PropertyName, null,
-                                    new { @class = "form-control" })
-                        }
-                        @Html.ValidationMessage(propery.PropertyName);
-                    </div>
+                            </label>
+                            @if (propery.PropertyName == "Description")
+                            {
+                                @Html.TextArea(propery.PropertyName, null,
+                                        new { @class = "form-control", rows = 5 })
+                            }
+                            else if (propery.Model is Domain.Entities.Category)
+                            {
+                                @Html.TextBox((propery.Model
+                               as Domain.Entities.Category).Name, null,
+                                 new { @class = "form-control" })
+                            }
+                            else
+                            {
+                                @Html.TextBox(propery.PropertyName, null,
+                                        new { @class = "form-control" })
+                            }
+                            @Html.ValidationMessage(propery.PropertyName);
+                        </div>
+                        break;
                 }
             }
+
+            <div class="form-control">
+                <div style="position:relative;">
+                    <label>Картинка</label>
+                    <a class="btn" href="javascript:;">
+                        Выберите файл...
+                        <input type="file" name="Image" size="40"
+                               style="position:absolute;z-index:2;top:0;
+                                        left:0;filter:opacity(0); opacity:0;
+                                        background-color:transparent;
+                                        color:transparent;"
+                               onchange='$("#upload-file-info").html($(this).val());'/>
+                    </a>
+                    <span class="" id="upload-file-info"></span>
+                </div>
+                @if (Model.ImageData == null)
+                {
+                    <div class="form-control">нет картинки</div>
+                }
+                else
+                {
+                    <img class="img-thumbnail" width="150" height="150"
+                         src="@Url.Action("GetImage", "Game", 
+                             new {Model.Id})" />
+                }
+            </div>
         </div>
         <div class="card-footer">
             <input type="submit" value="Сохранить" class="btn btn-primary" />

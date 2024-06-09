@@ -1,0 +1,33 @@
+﻿@model WebUI.Models.LoginViewModel
+
+@{ 
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3>Вход в сисетму</h3>
+    </div>
+    <div class="card-body">
+        <p class="lead">
+            Войдите в систему, чтобы получить доступ к админ. панели:
+        </p>
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary()
+            <div class="form-control">
+                <label>Имя пользователя:</label>
+                @Html.TextBoxFor(m => m.UserName,
+               new { @class = "form-control" })
+            </div>
+            <div class="form-control">
+                <label>Пароль:</label>
+                @Html.PasswordFor(m => m.Password,
+               new { @class = "form-control" })
+            </div>
+
+            <input type="submit" value="Войти" class="btn btn-primary"/>
+        }
+    </div>
+</div>

@@ -41,5 +41,20 @@ namespace WebUI.Controllers
             };
             return View(model);
         }
+
+        public FileContentResult GetImage(int id)
+        {
+            Game game = repository.Games.FirstOrDefault(
+                g => g.Id == id);
+
+            if (game != null)
+            {
+                return File(game.ImageData, game.ImageMimeType);
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

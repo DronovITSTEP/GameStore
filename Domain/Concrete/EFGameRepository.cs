@@ -19,6 +19,17 @@ namespace Domain.Concrete
             }
         }
 
+        public Game DeleteGame(int id)
+        {
+            Game game = _dbContext.Games.Find(id);
+            if (game != null)
+            {
+                _dbContext.Games.Remove(game);
+                _dbContext.SaveChanges();
+            }
+            return game;
+        }
+
         public void SaveGame(Game game)
         {
             if (game.Id == 0)
@@ -32,6 +43,8 @@ namespace Domain.Concrete
                     dbEntry.Description = game.Description;
                     dbEntry.Price = game.Price;
                     dbEntry.Category = game.Category;
+                    dbEntry.ImageData = game.ImageData;
+                    dbEntry.ImageMimeType = game.ImageMimeType;
                 }
             }
             _dbContext.SaveChanges();
