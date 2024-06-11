@@ -6,10 +6,13 @@
     string wrapperClasses = horizontal ? "btn-group btn-group-sm" : null;
 }
 
-<div class="@wrapperClasses">
+<div class="@wrapperClasses" style="width: fit-content">
     @Html.ActionLink("Домой", "List", "Game", null,
-new { @class = horizontal ? "btn btn-sm btn-outline-secondary":
-"btn btn-block btn-lg btn-outline-secondary" })
+new { 
+    @class = "w-100 " + (horizontal ? "btn btn-sm btn-outline-secondary":
+                            "btn btn-block btn-lg btn-outline-secondary"),
+    style = "margin-bottom: 5px;"
+})
 
     @foreach (var link in Model)
     {
@@ -22,9 +25,10 @@ new { @class = horizontal ? "btn btn-sm btn-outline-secondary":
    },
         new
         {
-            @class = horizontal ? "btn btn-sm btn-outline-secondary" :
+            @class = "w-100 " + (horizontal ? "btn btn-sm btn-outline-secondary" :
 "btn btn-block btn-lg btn-outline-secondary" +
-            (link == ViewBag.SelectedCategory ? " btn-primary" : "")
+            (link == ViewBag.SelectedCategory ? " btn-primary" : "")),
+            style = "margin-bottom: 5px;"
         })
     }
 </div>

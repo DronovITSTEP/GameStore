@@ -1,34 +1,34 @@
 ﻿@model Domain.Entities.Game
 
-<div class="card">
+<div class="card" style="margin-bottom: 2px;">
     <div class="card-body bg-light">
-        
-            @if (Model.ImageData != null)
-            {
-                <div class="float-start" style="margin-right: 10px;">
-                    <img class="img-thumbnail" width="75" height="75"
-                         src="@Url.Action("GetImage", "Game",
-                             new {Model.Id})" />
-                </div>
-            }
 
-        <h3>
-            <strong>@Model.Name</strong>
-            <span class="float-end badge bg-primary">
-                @Model.Price.ToString("# руб")
-            </span>
-        </h3>
-        @using (Html.BeginForm("AddToCart", "Cart"))
-            {
-                <div class="card-body bg-light float-end">
-                    @Html.HiddenFor(x=> x.Id)
-                    @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
-                    <input type="submit" class="btn btn-success"
-                           value="Добавить в корзину"/>
-                </div>
-            }
-        <span class="lead">
-            @Model.Description
+        @if (Model.ImageData != null)
+        {
+            <div class="float-start" style="margin-right: 10px;">
+                <img class="img-thumbnail" width="75" height="75"
+                     src="@Url.Action("GetImage", "Game",
+                             new {Model.Id})" />
+            </div>
+        }
+
+    <h3>
+        <strong>@Model.Name</strong>
+        <span class="badge bg-primary float-end" style="min-width: 120px">
+            @Model.Price.ToString("# руб")
         </span>
-    </div>
+    </h3>
+        @using (Html.BeginForm("AddToCart", "Cart"))
+        {
+            <div class="bg-light float-end">
+                        @Html.HiddenFor(x => x.Id)
+                        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                        <input type="submit" class="btn btn-success"
+                               value="Добавить" />
+            </div>
+                }
+                <span class="lead">
+                    @Model.Description
+                </span>
+            </div>
 </div>

@@ -18,14 +18,16 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="navbar navbar-expand-lg navbar-collapse" role="navigation">
-                <a class="navbar-brand" href="#">
-                    <span class="d-none d-sm-inline">GameStore - store of computer games!</span>
-                    <div class="d-sm-none">
-                        GameStore
-                    </div>
-                </a>
-                @Html.Action("Summary", "Cart")
+            <div class="col-12">
+                <div class="navbar navbar-expand-lg navbar-collapse" role="navigation">
+                    <a class="navbar-brand" href="#">
+                        <span class="d-none d-sm-inline">GameStore - store of computer games!</span>
+                        <div class="d-sm-none">
+                            GameStore
+                        </div>
+                    </a>
+                    @Html.Action("Summary", "Cart")
+                </div>
             </div>
         </div>
         <div class="d-sm-none ">

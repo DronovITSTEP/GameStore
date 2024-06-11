@@ -1,11 +1,5 @@
 ﻿@model Domain.Entities.Cart
 
-<div class="ms-auto d-none d-sm-block">
-    @Html.ActionLink("Заказать", "Index", "Cart",
-    new { returnUrl = Request.Url.PathAndQuery },
-    new { @class = "btn btn-outline-warning"})
-</div>
-
 <div class="ms-auto d-sm-none">
     <a href="@Url.Action("Index", "Cart", 
             new {returnUrl = Request.Url.PathAndQuery})"
@@ -15,7 +9,9 @@
 </div>
 
 <div class="navbar-text ms-auto">
-    <b class="d-none d-sm-block">Ваша корзина:</b>
+    @Html.ActionLink(" Корзина", "Index", "Cart",
+new { returnUrl = Request.Url.PathAndQuery },
+new { @class = "bi bi-basket btn btn-outline-warning" })
     @Model.Lines.Sum(x => x.Quantity) игр,
     @Model.ComputeTotalPrice().ToString("# руб")
 </div>
